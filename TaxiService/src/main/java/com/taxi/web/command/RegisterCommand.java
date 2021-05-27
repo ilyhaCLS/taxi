@@ -1,13 +1,10 @@
 package com.taxi.web.command;
 
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Optional;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +12,9 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.jstl.core.Config;
 
 import com.taxi.web.Path;
-import com.taxi.web.model.dao.UserDAO;
 import com.taxi.web.model.entity.User;
 import com.taxi.web.model.entity.UserInfo;
+import com.taxi.web.model.service.UserService;
 import com.taxi.web.model.entity.User.UserBuilder;
 import com.taxi.web.security.PasswordEncoder;
 
@@ -27,7 +24,7 @@ public class RegisterCommand extends Command {
 	private PasswordEncoder encoder = PasswordEncoder.getInstance();
 
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+	public String execute(HttpServletRequest req, HttpServletResponse res){
 
 		HttpSession session = req.getSession();
 
@@ -58,14 +55,9 @@ public class RegisterCommand extends Command {
 		usInfo.setFirst(req.getParameter("first"));
 		usInfo.setLast(req.getParameter("last"));
 
-		try {
-			new UserDAO().regNewUser(us, usInfo);
-			res.setHeader("message_info", "successfully_registered");
-			forward = Path.PAGE_LOGIN;
-		} catch (SQLException e) {
-			res.setHeader("message_info", "already_registered");
-			forward = Path.PAGE_REGISTER;
-		}
+		new UserService().addUser(us, usInfo);
+		res.setHeader("message_info", "successfully_registered");
+		forward = Path.PAGE_LOGIN;
 
 		return forward;
 	}

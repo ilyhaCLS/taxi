@@ -8,38 +8,50 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import com.taxi.web.model.dao.DAOFactory;
-import com.taxi.web.model.dao.UserDAO;
+import com.taxi.web.model.dao.CarDao;
+import com.taxi.web.model.dao.DaoFactory;
+import com.taxi.web.model.dao.RideDao;
+import com.taxi.web.model.dao.UserDao;
 
-public class JDBCDaoFactory extends DAOFactory {
+public class JDBCDaoFactory extends DaoFactory {
 	
-	public Connection getConnection() throws SQLException {
-		Connection con = null;
+	Context initContext = null;
+	Context envContext  = null;
+	
+	DataSource ds = null;
+	
+	public JDBCDaoFactory(){
 		try {
-			Context initContext = new InitialContext();
-			Context envContext  = (Context)initContext.lookup("java:/comp/env");
+			initContext = new InitialContext();
+			envContext  = (Context)initContext.lookup("java:/comp/env");
 			
 			// ST4DB - the name of data source
-			DataSource ds = (DataSource)envContext.lookup("jdbc/taxi");
-			con = ds.getConnection();
+			ds = (DataSource)envContext.lookup("jdbc/taxi");
 		} catch (NamingException ex) {
-			System.out.println(ex);			
+			System.out.println(ex);
 		}
-		return con;
+	}
+	
+	private Connection getConnection() {
+		try {
+			return ds.getConnection();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	
 	
 	@Override
     public RideDao createRideDao() {
-        return new JDBCRideDao(getConnection());
+		return new JDBCRideDao(getConnection());
     }
     @Override
     public CarDao createCarDao() {
-        return new JDBCCarDao(getConnection());
+		return new JDBCCarDao(getConnection());
     }
 	@Override
-	public UserDAO createUserDao() {
-		return JDBCUserDao(getConnection());
+	public UserDao createUserDao() {
+		return new JDBCUserDao(getConnection());
 	}
 }

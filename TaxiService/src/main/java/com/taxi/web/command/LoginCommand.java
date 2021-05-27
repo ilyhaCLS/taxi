@@ -15,9 +15,9 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.jstl.core.Config;
 
 import com.taxi.web.Path;
-import com.taxi.web.model.dao.UserDAO;
 import com.taxi.web.model.entity.Role;
 import com.taxi.web.model.entity.User;
+import com.taxi.web.model.service.UserService;
 import com.taxi.web.security.PasswordEncoder;
 
 public class LoginCommand extends Command {
@@ -28,7 +28,8 @@ public class LoginCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res)
 			throws IOException, ServletException {
-		UserDAO userDAO = new UserDAO();
+		
+		UserService userService = new UserService();
 		
 		HttpSession session = req.getSession();
 		
@@ -42,9 +43,8 @@ public class LoginCommand extends Command {
 		
 		
 		String forward = null;
-
 		
-		User us = userDAO.findUserByLogin(req.getParameter("login"));
+		User us = userService.getUser(req.getParameter("login"));
 		if(us == null) {
 				res.setHeader("message_info", "wrong_cred");
 				forward = Path.PAGE_LOGIN;
@@ -73,12 +73,16 @@ public class LoginCommand extends Command {
 					}
 					
 					session.setAttribute("greeting", greeting);
-					session.setAttribute("name", userDAO.findFirstNameByUserId(us.getId()));
+					session.setAttribute("name", userService.getFirstName(us.getId()));
 					session.setAttribute("role", Role.valueOf(us.getRole()));
 					session.setAttribute("user_id", us.getId());
 					
 					System.out.println("new user logged in : "+us.getId());
 					
+					if(us.getRole().equals("ADMIN")) {
+						forward = Path.PAGE_ADMIN;
+						return forward;
+					}
 					forward = "redirect:"+Path.PAGE_INDEX;
 				}else {
 					res.setHeader("message_info", "wrong_cred");

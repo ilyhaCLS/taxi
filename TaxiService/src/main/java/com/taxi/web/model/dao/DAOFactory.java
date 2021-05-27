@@ -2,18 +2,18 @@ package com.taxi.web.model.dao;
 
 import com.taxi.web.model.dao.impl.JDBCDaoFactory;
 
-public abstract class DAOFactory {
-	private static DAOFactory daoFactory;
+public abstract class DaoFactory {
+	private static DaoFactory daoFactory;
 	
-	public abstract UserDAO createUserDao();
-    public abstract RideDAO createRideDao();
-    public abstract CarDAO createCarDao();
+	public abstract UserDao createUserDao();
+    public abstract RideDao createRideDao();
+    public abstract CarDao createCarDao();
 	
-	public static DAOFactory getInstance(){
+	public static DaoFactory getInstance(){
 		if( daoFactory == null ){
-            synchronized (DAOFactory.class){
+            synchronized (DaoFactory.class){
                 if(daoFactory==null){
-                    DAOFactory temp = new JDBCDaoFactory();
+                    DaoFactory temp = new JDBCDaoFactory();
                     daoFactory = temp;
                 }
             }

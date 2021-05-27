@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.taxi.web.Path;
-import com.taxi.web.model.dao.CarDAO;
-import com.taxi.web.model.dao.RideDAO;
 import com.taxi.web.model.entity.Car;
 import com.taxi.web.model.entity.CarClass;
 import com.taxi.web.model.entity.Ride;
+import com.taxi.web.model.service.CarService;
+import com.taxi.web.model.service.RideService;
 
 public class RideConfirmedCommand extends Command {
 	private static final long serialVersionUID = 1L;
@@ -28,8 +28,8 @@ public class RideConfirmedCommand extends Command {
 			throws IOException, ServletException {
 		
 		HttpSession session = req.getSession();
-		CarDAO carDAO = new CarDAO();
-		RideDAO rideDAO = new RideDAO();
+		CarService carService = new CarService();
+		RideService rideService = new RideService();
 		
 		List<Car> resCars = new ArrayList<Car>(); 
 		
@@ -48,10 +48,10 @@ public class RideConfirmedCommand extends Command {
 				r.setPrice(Math.round(Float.parseFloat(((String) session.getAttribute("dist")).substring(0, ((String) session.getAttribute("dist")).indexOf(" ")))
 						* (CarClass.valueOf((String) option1.get("carClass")).getPricePerKm()) - (int)session.getAttribute("disc")));
 				
-				Car c = carDAO.findActiveCarByClass((String)option1.get("carClass"));
+				Car c = carService.getActiveCar((String)option1.get("carClass"));
 				
 				r.setCarId(c.getId());
-				rideDAO.addNewRide(r);
+				rideService.addRide(r);
 				resCars.add(c);
 			}
 			break;
@@ -62,20 +62,20 @@ public class RideConfirmedCommand extends Command {
 				r.setPrice(Math.round(Float.parseFloat(((String) session.getAttribute("dist")).substring(0, ((String) session.getAttribute("dist")).indexOf(" ")))
 						* (CarClass.valueOf((String) option2.get("carClass")).getPricePerKm())- (int)session.getAttribute("disc")));
 				
-				Car c = carDAO.findActiveCarByClass((String)option2.get("carClass"));
+				Car c = carService.getActiveCar((String)option2.get("carClass"));
 				
 				r.setCarId(c.getId());
-				rideDAO.addNewRide(r);
+				rideService.addRide(r);
 				resCars.add(c);
 			}
 			break;
 		default:
 			System.out.println("inside default case");
 			
-			Car c = carDAO.findActiveCarByClass((String)session.getAttribute("carClass"));
+			Car c = carService.getActiveCar((String)session.getAttribute("carClass"));
 			
 			r.setCarId(c.getId());
-			rideDAO.addNewRide(r);
+			rideService.addRide(r);
 			resCars.add(c);
 
 			break;

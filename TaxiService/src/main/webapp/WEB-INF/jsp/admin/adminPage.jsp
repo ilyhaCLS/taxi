@@ -17,36 +17,44 @@
 <%@include file="/WEB-INF/jspf/head.jspf"%>
 </head>
 <body>
-	<p>STATS PAGE</p>
+<c:choose>
+	<c:when test="${cookie.lang.value != 'en'}">
+		<a href="/controller?command=lang&newLang=en"> EN </a>
+	</c:when>
+	<c:when test="${cookie.lang.value != 'ru'}">
+		<a href="/controller?command=lang&newLang=ru"> RU </a>
+	</c:when>
+
+</c:choose>
 
 	<h1>
-	Rides in a 24h period: <c:out value="${ridesInADay}"/>
+	<fmt:message key="adminPage.rides24h"/>: <c:out value="${ridesInADay}"/>
 		<br />
 	</h1>
 	
 	<h1>
-	Income in a 24h period:<c:out value="${sumInADay}"/>
+	
+	<fmt:message key="adminPage.income24h"/>: <c:out value="${sumInADay}"/>
 		<br />
 	</h1>
 
-
-	<h3>Show All Rides :</h3>
+	<h3><fmt:message key="adminPage.allRides"/> :</h3>
 
 	<h3>
 		<a href="controller?command=showRides&q=all&order=desc"
-			target="_blank">New first</a>
+			target="_blank"><fmt:message key="adminPage.newFirst"/></a>
 	</h3>
 	<h3>
-		<a href="controller?command=showRides&q=all&order=asc" target="_blank">Old
-			first</a>
+		<a href="controller?command=showRides&q=all&order=asc" target="_blank">
+		<fmt:message key="adminPage.oldFirst"/></a>
 	</h3>
 	<h3>
-		<a href="controller?command=showRides&q=all&order=exp" target="_blank">Expensive
-			first</a>
+		<a href="controller?command=showRides&q=all&order=exp" target="_blank">
+		<fmt:message key="adminPage.expFirst"/></a>
 	</h3>
 	<h3>
 		<a href="controller?command=showRides&q=all&order=cheap"
-			target="_blank">Cheap first</a>
+			target="_blank"><fmt:message key="adminPage.cheapFirst"/></a>
 	</h3>
 
 
@@ -54,28 +62,27 @@
 		<form action="controller?command=showRides&q=all&order=date"
 			method="post">
 			<p>
-				<b>Сделаные в период с (включительно) ?</b>
+				<b><fmt:message key="adminPage.madeFrom"/>:</b>
 			</p>
 			<input type="datetime-local" name="from" required="required">
 
 			<p>
-				<b>по (включительно) ?</b>
+				<b><fmt:message key="adminPage.madeUntil"/></b>
 			</p>
 			<input type="datetime-local" name="until" required="required">
-
-			<button type="submit" name="show">Показать</button>
+	
+			<button type="submit" name="show">OK</button>
 		</form>
 	</div>
 	
-	
 		<form action="controller?command=showRides&q=us" method="post">
 			<p>
-				<b>По id пользователя</b>
+				<b><fmt:message key="adminPage.byId"/></b>
 			</p>
 			<input type="number" name="user_id" required="required">
 
 
-			<button type="submit" name="show">Показать</button>
+			<button type="submit" name="show">OK</button>
 		</form>
 </body>
 </html>

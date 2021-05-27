@@ -40,8 +40,8 @@
 	
 	
 	<filter>
-		<filter-name>LogRegAccess</filter-name>
-		<filter-class>com.taxi.web.filter.LogRegAccess</filter-class>
+		<filter-name>GeneralPagesAccess</filter-name>
+		<filter-class>com.taxi.web.filter.GeneralPagesAccess</filter-class>
 	</filter>
 
 	<filter>
@@ -74,13 +74,18 @@
 	</filter-mapping>
 
 	<filter-mapping>
-		<filter-name>LogRegAccess</filter-name>
+		<filter-name>GeneralPagesAccess</filter-name>
 		<url-pattern>/login.jsp</url-pattern>
 	</filter-mapping>
 
 	<filter-mapping>
-		<filter-name>LogRegAccess</filter-name>
+		<filter-name>GeneralPagesAccess</filter-name>
 		<url-pattern>/register.jsp</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>GeneralPagesAccess</filter-name>
+		<url-pattern>/index.jsp</url-pattern>
 	</filter-mapping>
 
 

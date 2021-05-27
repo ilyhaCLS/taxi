@@ -11,14 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class LogRegAccess implements Filter {
+public class GeneralPagesAccess implements Filter {
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
 		
 		HttpSession session = ((HttpServletRequest)req).getSession();
+		
 		if(session.getAttribute("role") == null) {
 			chain.doFilter(req, res);
+		}else if(session.getAttribute("role").toString().equals("ADMIN")){
+			System.out.println("here");
+			((HttpServletResponse)res).sendRedirect("/controller?command=adminPage");
 		}else {
 			((HttpServletResponse)res).sendRedirect("/");
 		}

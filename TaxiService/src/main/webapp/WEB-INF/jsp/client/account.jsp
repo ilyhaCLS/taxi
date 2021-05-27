@@ -1,10 +1,3 @@
-<%@page import="java.util.Arrays"%>
-<%@page import="java.time.format.FormatStyle"%>
-<%@page import="java.util.Locale"%>
-<%@page import="java.time.LocalDateTime"%>
-<%@page import="java.time.format.DateTimeFormatter"%>
-<%@page import="com.taxi.web.model.entity.Ride"%>
-<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jspf/directive/taglib.jspf"%>

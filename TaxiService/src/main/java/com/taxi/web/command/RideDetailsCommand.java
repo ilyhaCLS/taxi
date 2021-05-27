@@ -14,10 +14,10 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
 import com.taxi.web.Path;
-import com.taxi.web.model.dao.UserDAO;
 import com.taxi.web.model.entity.CarClass;
 import com.taxi.web.model.entity.Ride;
 import com.taxi.web.model.entity.Ride.RideBuilder;
+import com.taxi.web.model.service.UserService;
 
 public class RideDetailsCommand extends Command {
 	private static final long serialVersionUID = 1L;
@@ -42,7 +42,7 @@ public class RideDetailsCommand extends Command {
 
 		String dist = matrix.rows[0].elements[0].distance.toString();
 		
-		int discount = (new UserDAO().findTotalSpentByUserId((int)session.getAttribute("user_id"))/100);
+		int discount = (new UserService().getTotalSpent((int)session.getAttribute("user_id"))/100);
 		
 		if (Integer.parseInt((String) req.getParameter("numOfPass")) <= CarClass.valueOf(req.getParameter("carClass"))
 				.getNumOfSeats()) {
