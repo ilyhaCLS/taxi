@@ -1,0 +1,61 @@
+<%@include file="/WEB-INF/jspf/directive/page.jspf"%>
+<%@include file="/WEB-INF/jspf/directive/taglib.jspf"%>
+
+
+<c:choose>
+	<c:when test="${cookie.lang.value != 'en'}">
+		<a href="/controller?command=lang&newLang=en"> EN </a>
+	</c:when>
+	<c:when test="${cookie.lang.value != 'ru'}">
+		<a href="/controller?command=lang&newLang=ru"> RU </a>
+	</c:when>
+
+</c:choose>
+
+<header id="header" class="header">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<img src="img/logo.png" class="log-adj animated fadeInLeft" />
+			</div>
+
+			<div class="col-lg-9 ml-auto animated fadeInRight">
+				<nav>
+					<ul class="menu justify-content-left">
+						<li class="menu__item">
+						<c:if test="${not empty sessionScope.user_id}">
+								<h4>
+									<fmt:message key="${sessionScope.greeting}" />
+									${sessionScope.name}, <a href="controller?command=ride"> <fmt:message
+											key="header.ride" />
+									</a>
+								</h4>
+							</c:if> 
+							<c:if test="${empty sessionScope.user_id}">
+								<h4>
+									<a href="login.jsp"> <fmt:message key="header.login" />
+									</a>
+									<fmt:message key="header.or" />
+									<a href="register.jsp"> <fmt:message key="header.register" />
+									</a>
+									<fmt:message key="header.ride_unlogged" />
+								</h4>
+							</c:if>
+							</li>
+						<li class="menu__item"><c:if
+								test="${not empty sessionScope.user_id}">
+								<a href="controller?command=account"> <fmt:message
+										key="header.account" />
+								</a>
+								|
+								<a href="controller?command=logout"> <fmt:message
+										key="header.logout" />
+								</a>
+
+							</c:if></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+</header>
