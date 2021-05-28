@@ -74,6 +74,6 @@ $(document).ready(function () {
 	 });
 	});
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyCJZFIujsVoCm_g8LrdJqLG6GKmEcDd2CQ"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=secretkey"></script>
 </body>
 </html>
