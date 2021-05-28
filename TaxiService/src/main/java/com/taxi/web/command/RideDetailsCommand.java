@@ -28,7 +28,7 @@ public class RideDetailsCommand extends Command {
 		String forward = Path.PAGE_INDEX;
 		HttpSession session = req.getSession();
 
-		GeoApiContext sc = new GeoApiContext.Builder().apiKey("AIzaSyCJZFIujsVoCm_g8LrdJqLG6GKmEcDd2CQ").build();
+		GeoApiContext sc = new GeoApiContext.Builder().apiKey("secretkey").build();
 		DistanceMatrix matrix = null;
 		try {
 			matrix = DistanceMatrixApi.newRequest(sc).origins(req.getParameter("posFrom").replace(' ', '+'))
